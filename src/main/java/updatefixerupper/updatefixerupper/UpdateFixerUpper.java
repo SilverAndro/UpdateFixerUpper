@@ -64,17 +64,23 @@ public class UpdateFixerUpper implements ModInitializer {
                 FileInputStream fis = new FileInputStream(file);
                 Scanner sc = new Scanner(fis);
     
+                int lineNumber = 1;
                 while(sc.hasNextLine())
                 {
                     String line = sc.nextLine();
                     
                     // We can assume 4 because of the center text + at least 2 on each side for identifiers
                     if (!line.startsWith("//") && line.length() > 4) {
-                        line = line.replace(" ", "");
-                        String[] split = line.split("->");
-                        
-                        fixerMap.put(split[0], new Identifier(split[1]));
+                        String cleanLine = line.replace(" ", "");
+                        String[] split = cleanLine.split("->");
+                        try {
+                            fixerMap.put(split[0], new Identifier(split[1]));
+                        } catch (IndexOutOfBoundsException e) {
+                            logger.error("Failed to read line " + lineNumber + " that contains text " + '"' + line + '"');
+                        }
                     }
+                    
+                    lineNumber++;
                 }
                 sc.close();
             } catch (FileNotFoundException e) {
