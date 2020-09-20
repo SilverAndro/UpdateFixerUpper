@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class UpdateFixerUpper implements ModInitializer {
-    Logger logger = LogManager.getLogger("UFU");
+    public static Logger logger = LogManager.getLogger("UFU");
     public static HashMap<String, Identifier> fixerMap = new HashMap<>();
     
     @Override

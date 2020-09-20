@@ -4,7 +4,7 @@
   "package": "updatefixerupper.updatefixerupper.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "FixMissingIdentifierMixin"
+    "RegistryGetHijackMixin"
   ],
   "client": [
   ],
