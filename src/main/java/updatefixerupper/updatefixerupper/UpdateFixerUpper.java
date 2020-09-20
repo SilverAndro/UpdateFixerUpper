@@ -27,17 +27,20 @@ package updatefixerupper.updatefixerupper;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class UpdateFixerUpper implements ModInitializer {
+    Logger logger = LogManager.getLogger("UFU");
     public static HashMap<String, Identifier> fixerMap = new HashMap<>();
     
     @Override
     public void onInitialize() {
-        System.out.println("Hello from UFU! Remember to make backups!");
+        logger.info("Hello from UFU! Remember to make backups!");
         File file = FabricLoader.getInstance().getConfigDir().resolve("ufu.txt").toFile();
         
         if (!file.exists()) {
@@ -77,8 +80,8 @@ public class UpdateFixerUpper implements ModInitializer {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+            
+            logger.info("Finished reading ufu.txt, found " + fixerMap.size() + " valid pairs");
         }
-        
-        System.out.println(fixerMap);
     }
 }

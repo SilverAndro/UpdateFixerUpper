@@ -33,7 +33,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import updatefixerupper.updatefixerupper.UpdateFixerUpper;
 
 @Mixin(DefaultedRegistry.class)
-public class FixMissingBlocksMixin<T> {
+public class FixMissingIdentifierMixin {
     @ModifyVariable(at = @At("HEAD"), method = "get(Lnet/minecraft/util/Identifier;)Ljava/lang/Object;")
     Identifier fixMissingFromRegistry(@Nullable Identifier id) {
         if (id != null) {
