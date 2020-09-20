@@ -2,7 +2,7 @@
 
 ---
 
-UpdateFixerUpper is a mod designed ot help when updating mobs, to prevent world corruption and replace items with equivalents
+UpdateFixerUpper is a mod designed to help when updating mods, to prevent world corruption and replace items with equivalents
 
 ***REMEMBER TO MAKE BACKUPS! UFU DOES NOT CARE WHAT IT IS CHANGING***
 
