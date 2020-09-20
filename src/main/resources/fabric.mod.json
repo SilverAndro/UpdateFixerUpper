@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "updatefixerupper",
+  "version": "${version}",
+  "name": "UpdateFixerUpper",
+  "description": "A utility mod for helping handling missing items/blocks when updating mods",
+  "authors": [
+    "TheoreticallyUseful"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/updatefixerupper/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "updatefixerupper.updatefixerupper.UpdateFixerUpper"
+    ]
+  },
+  "mixins": [
+    "updatefixerupper.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.9.3+build.207",
+    "fabric": "*",
+    "minecraft": ">=1.16"
+  }
+}

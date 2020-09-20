@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "updatefixerupper.updatefixerupper.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "FixMissingBlocksMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
