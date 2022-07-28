@@ -30,13 +30,18 @@ import net.minecraft.util.registry.DefaultedRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(DefaultedRegistry.class)
-public class RegistryGetHijackMixin<T> {
+public abstract class RegistryGetHijackMixin<T> {
+    @Shadow public abstract @NotNull T get(@Nullable Identifier id);
+
+    private static boolean isInLookup = false;
+
     @Inject(
             method = "get(Lnet/minecraft/util/Identifier;)Ljava/lang/Object;",
             at = @At(
@@ -47,12 +52,13 @@ public class RegistryGetHijackMixin<T> {
             cancellable = true
     )
     void fixMissingFromRegistry(@Nullable Identifier id, CallbackInfoReturnable<@NotNull T> cir, Object obj) {
-        if (id == null) {
+        if (id == null || isInLookup) {
             //noinspection unchecked
             cir.setReturnValue((T) obj);
             return;
         }
-        //noinspection unchecked
-        cir.setReturnValue((T) UpdateFixerUpper.fixerMap.getOrDefault(id.toString(), id));
+        isInLookup = true;
+        cir.setReturnValue(get(UpdateFixerUpper.fixerMap.getOrDefault(id.toString(), id)));
+        isInLookup = false;
     }
 }
