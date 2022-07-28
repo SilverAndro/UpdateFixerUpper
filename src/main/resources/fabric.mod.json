@@ -5,11 +5,11 @@
   "name": "UpdateFixerUpper",
   "description": "A utility mod for helping handling missing items/blocks when updating mods",
   "authors": [
-    "TheoreticallyUseful"
+    "SilverAndro"
   ],
   "contact": {
-    "sources": "https://github.com/P03W/UpdateFixerUpper",
-    "issues": "https://github.com/P03W/UpdateFixerUpper/issues",
+    "sources": "https://github.com/SilverAndro/UpdateFixerUpper",
+    "issues": "https://github.com/SilverAndro/UpdateFixerUpper/issues",
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/updatefixerupper"
   },
   "license": "MIT",
@@ -17,15 +17,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "updatefixerupper.updatefixerupper.UpdateFixerUpper"
+      "io.github.silverandro.ufu.UpdateFixerUpper"
     ]
   },
   "mixins": [
     "updatefixerupper.mixins.json"
-  ],
-  "depends": {
-    "fabricloader": ">=0.9.3+build.207",
-    "fabric": "*",
-    "minecraft": ">=1.16"
-  }
+  ]
 }

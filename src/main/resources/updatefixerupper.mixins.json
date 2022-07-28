@@ -1,12 +1,10 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "updatefixerupper.updatefixerupper.mixin",
+  "package": "io.github.silverandro.ufu.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "RegistryGetHijackMixin"
-  ],
-  "client": [
   ],
   "injectors": {
     "defaultRequire": 1
