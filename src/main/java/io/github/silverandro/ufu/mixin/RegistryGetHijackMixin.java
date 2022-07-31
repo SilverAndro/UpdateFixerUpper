@@ -27,12 +27,14 @@ package io.github.silverandro.ufu.mixin;
 import io.github.silverandro.ufu.UpdateFixerUpper;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.DefaultedRegistry;
+import net.minecraft.util.registry.RegistryEntry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
@@ -40,25 +42,33 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 public abstract class RegistryGetHijackMixin<T> {
     @Shadow public abstract @NotNull T get(@Nullable Identifier id);
 
+    private static Identifier capturedId;
     private static boolean isInLookup = false;
 
     @Inject(
             method = "get(Lnet/minecraft/util/Identifier;)Ljava/lang/Object;",
-            at = @At(
-                    value = "FIELD",
-                    target = "Lnet/minecraft/util/registry/DefaultedRegistry;defaultValue:Ljava/lang/Object;"
-            ),
-            locals = LocalCapture.CAPTURE_FAILHARD,
-            cancellable = true
+            at = @At("HEAD")
     )
-    void fixMissingFromRegistry(@Nullable Identifier id, CallbackInfoReturnable<@NotNull T> cir, Object obj) {
-        if (id == null || isInLookup) {
-            //noinspection unchecked
-            cir.setReturnValue((T) obj);
-            return;
+    void setCapturedId(Identifier id, CallbackInfoReturnable<T> cir) {
+        capturedId = id;
+    }
+
+    @Redirect(
+            method = "get(Lnet/minecraft/util/Identifier;)Ljava/lang/Object;",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/util/registry/RegistryEntry;value()Ljava/lang/Object;"
+            )
+    )
+    T fixMissingFromRegistry(RegistryEntry<T> instance) {
+        if (capturedId == null || isInLookup) {
+            return instance.value();
         }
+
         isInLookup = true;
-        cir.setReturnValue(get(UpdateFixerUpper.fixerMap.getOrDefault(id.toString(), id)));
+        T result = get(UpdateFixerUpper.fixerMap.getOrDefault(capturedId.toString(), capturedId));
         isInLookup = false;
+
+        return result;
     }
 }
